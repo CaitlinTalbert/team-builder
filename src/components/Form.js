@@ -1,38 +1,61 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-const Form = (props) => {
-    const { submitPerson, initialPerson, buttonText, history } = props; 
-    const [person, setPerson ] = useState(initialPerson || {name: "", email:"", role:""}); 
-    const handleChange = event => {
-        setPerson({ ...person, [event.target.name]: event.target.value}); 
-    }; 
-    const handleSubmit = event => {
-        event.preventDefault(); 
-        submitPerson(person); 
-        setPerson({name:"", email:"", role:""}); 
-    }; 
+export default function Form(props) {
+    const { values, update, submit } = props
+  
+    const onChange = evt => {
+      const name = evt.target.name; 
+      const { value } = evt.target; 
+      update(name, value ); 
+    }
+  
+    const onSubmit = evt => {
+      evt.preventDefault();
+      submit(); 
+    }
+  
     return (
-        <form onSubmit={handleSubmit}>
-            <input placeholder="name"
-            value={person.name}
-            name="name"
-            onChange={handleChange} />
-
-            <input placeholder="email"
-            value={person.email}
+      <form className='form container' onSubmit={onSubmit}>
+        <div className='form-group inputs'>
+          <label>Username
+                <input 
+                  name="username"
+                  type="text"
+                  placeholder="Type your username here"
+                  maxLength="30"
+                  value={values.username}
+                  onChange={onChange}
+                />
+          </label>
+  
+          <label>Email
+            <input 
             name="email"
-            onChange={handleChange} />
+            type="email"
+            placeholder="Type your email here"
+            value={values.email}
+            onChange={onChange}
+            />
+          </label>
+  
+     
+          <label>Role
+            <select value={values.role} name="role" onChange={onChange}>
+                <option value="">-- Select a Role --</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Front End Web Developer">Front End Web Developer</option>
+                <option value="Back End Web Developer">Back End Web Developer</option>
+            </select>
+          </label>
+  
+          <div className='submit'>
+            <button>submit</button>
+          </div>
+        </div>
+      </form>
+    )
+  }
 
-            <input placeholder="role"
-            value={person.role}
-            name="role"
-            onChange={handleChange} />
-
-            <button type="submit">{buttonText}</button>
-        </form>
-    );
-}; 
-export default Form; 
 
 
 

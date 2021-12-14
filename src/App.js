@@ -1,5 +1,6 @@
 import './App.css';
 import Form from "./components/Form.js"; 
+import Member from "./components/Member.js"
 import React, { useState } from 'react'; 
 
 /**
@@ -31,34 +32,40 @@ export default function App() {
       memberName: formValues.memberName.trim(), 
       email: formValues.email.trim(), 
       role: formValues.role,
-      } 
-
-      if(!newMember.memberName || !newMember.email || !newMember.role){
-        setError("All fields required")
-      } else {
-        setMembers ([setMembers, ...members]); 
-        setFormValues(initialFormValues); 
-        setError("")
       }
+      setMembers(members.concat(newMember)); 
+      setFormValues(initialFormValues)
     } 
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>Members of a Team</h1>
-        {/** 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        </a>
-        */}
+        <Form 
+        values={formValues}
+        update={updateForm}
+        submit={submitForm}
+        />
       </header>
+
+      {
+        members.map((member, idx) => {
+          return (
+            <Member key={member.id} details={member} />
+          )
+        })
+      }
     </div>
   );
 }
 
 
-
+/**
+ * if(!newMember.memberName || !newMember.email || !newMember.role){
+        setError("All fields required")
+      } else {
+        setMembers ([setMembers, ...members]); 
+        setFormValues(initialFormValues); 
+        setError("")
+      }
+ */
