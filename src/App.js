@@ -51,7 +51,7 @@ export default function App() {
       {
         members.map((member, idx) => {
           return (
-            <Member key={member.id} details={member} />
+            <Member key={idx} details={member} />
           )
         })
       }
